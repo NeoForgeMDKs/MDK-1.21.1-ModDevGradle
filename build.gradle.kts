@@ -1,5 +1,3 @@
-import org.gradle.plugins.ide.idea.model.IdeaModel
-
 plugins {
     id("java-library")
     id("maven-publish")
@@ -151,11 +149,9 @@ tasks.withType<JavaCompile>().configureEach {
     options.encoding = "UTF-8"
 }
 
-plugins.withId("idea") {
-    configure<IdeaModel> {
-        module {
-            isDownloadJavadoc = true
-            isDownloadSources = true
-        }
+idea {
+    module {
+        isDownloadJavadoc = true
+        isDownloadSources = true
     }
 }
