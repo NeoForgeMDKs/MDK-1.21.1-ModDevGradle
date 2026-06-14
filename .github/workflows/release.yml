@@ -93,7 +93,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r .github/workflows/requirements.txt
+          pip install -r src/main/python/requirements.txt
 
       - name: Create GitHub releases
         if: vars.CREATE_GITHUB_RELEASE != ''
@@ -112,4 +112,4 @@ jobs:
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
           MODRINTH_PROJECT_ID: ${{ vars.MODRINTH_PROJECT_ID }}
         if: vars.MODRINTH_PROJECT_ID != '' && env.MODRINTH_TOKEN != ''
-        run: python .github/workflows/release.modrinth.py
+        run: python src/main/python/release.modrinth.py
