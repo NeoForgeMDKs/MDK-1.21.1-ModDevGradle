@@ -6,47 +6,50 @@ from pathlib import Path
 import requests
 
 def main():
-    MODRINTH_TOKEN = os.environ.get('MODRINTH_TOKEN')
+    MODRINTH_TOKEN = os.environ.get("MODRINTH_TOKEN")
 
     metadata = {
-        "name": f"{os.environ.get('REPOSITORY_NAME')} {os.environ.get('VERSION')}",
-        "version_number": os.environ.get('VERSION').removeprefix('v'),
-        "changelog": Path('CHANGELOG.md').read_text(encoding='utf-8'),
-        'game_versions': ['1.21.1'],
-        'version_type': 'release',
-        'loaders': ['neoforge'],
-        'featured': True,
-        'project_id': os.environ.get('MODRINTH_PROJECT_ID')
+        "name": f"{os.environ.get("REPOSITORY_NAME")} {os.environ.get("VERSION")}",
+        "version_number": os.environ.get("VERSION").removeprefix("v"),
+        "changelog": Path("CHANGELOG.md").read_text(encoding="utf-8"),
+        "game_versions": ["1.21.1"],
+        "version_type": "release",
+        "loaders": ["neoforge"],
+        "featured": True,
+        "project_id": os.environ.get("MODRINTH_PROJECT_ID")
     }
 
-    with open('src/main/python/dependencies.modrinth.json', 'r', encoding='utf-8') as f:
-        metadata['dependencies'] = json.load(f)
+    with open("src/main/python/dependencies.modrinth.json", "r", encoding="utf-8") as f:
+        metadata["dependencies"] = json.load(f)
 
     with ExitStack() as stack:
         files = {}
         file_parts = []
 
-        for jar in Path().glob('*.jar'):
-            file = stack.enter_context(jar.open('rb'))
+        for jar in Path().glob("*.jar"):
+            file = stack.enter_context(jar.open("rb"))
             file_part = jar.stem
             file_parts.append(file_part)
             files[file_part] = (jar.name, file, "application/java-archive")
+
+        if not file_parts:
+            raise FileNotFoundError("No Jar files found.")
 
         metadata["file_parts"] = file_parts
         metadata["primary_file"] = file_parts[0]
 
         response = requests.post(
-            'https://api.modrinth.com/v2/version',
+            "https://api.modrinth.com/v2/version",
             headers={
-                'Authorization': MODRINTH_TOKEN,
-                'User-Agent': f"{os.environ.get('REPOSITORY')}/{os.environ.get('VERSION')}"
+                "Authorization": MODRINTH_TOKEN,
+                "User-Agent": f"{os.environ.get("REPOSITORY")}/{os.environ.get("VERSION")}"
             },
             data={
-                'data': json.dumps(metadata)
+                "data": json.dumps(metadata)
             },
             files=files
         )
         response.raise_for_status()
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
