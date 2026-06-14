@@ -70,7 +70,12 @@ jobs:
         uses: taiki-e/install-action@git-cliff
 
       - name: Generate a changelog
-        run: git-cliff --verbose --output CHANGELOG.md --strip all ${{ steps.tag.outputs.previous_tag }}..HEAD
+        run: |
+          if [ -z "${{ steps.tag.outputs.previous_tag }}" ] then
+            echo "First release" > CHANGELOG.md
+          else
+            git-cliff --verbose --output CHANGELOG.md --strip all ${{ steps.tag.outputs.previous_tag }}..HEAD
+          fi
 
       - name: Download artifact
         uses: actions/download-artifact@v8
