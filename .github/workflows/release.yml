@@ -96,6 +96,7 @@ jobs:
           pip install -r .github/workflows/requirements.txt
 
       - name: Create GitHub releases
+        if: vars.CREATE_GITHUB_RELEASE != ''
         uses: softprops/action-gh-release@v3
         with:
           body_path: CHANGELOG.md
@@ -104,11 +105,11 @@ jobs:
           tag_name: ${{ steps.tag.outputs.latest_tag }}
 
       - name: Create Modrinth release
-        if: vars.MODRINTH_PROJECT_ID != ''
         env:
           REPOSITORY: ${{ github.repository }}
           REPOSITORY_NAME: ${{ github.event.repository.name }}
           VERSION: ${{ steps.tag.outputs.latest_tag }}
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
           MODRINTH_PROJECT_ID: ${{ vars.MODRINTH_PROJECT_ID }}
+        if: vars.MODRINTH_PROJECT_ID != '' && env.MODRINTH_TOKEN != ''
         run: python .github/workflows/release_modrinth.py
