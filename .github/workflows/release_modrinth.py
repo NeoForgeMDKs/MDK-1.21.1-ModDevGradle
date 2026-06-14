@@ -17,6 +17,7 @@ def main():
     metadata['game_versions'] = ['1.21.1']
     metadata['version_type'] = 'release'
     metadata['loaders'] = ['neoforge']
+    metadata['featured'] = True
     metadata['project_id'] = os.environ.get('MODRINTH_PROJECT_ID')
 
     with ExitStack() as stack:
