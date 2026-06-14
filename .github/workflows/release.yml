@@ -71,8 +71,8 @@ jobs:
         with:
           name: 'Jars'
 
-      - name: Unzip artifact
-        run: unzip ./Jars.zip
+      - name: TEST
+        run: ls -R
 
       - name: Install git-cliff
         uses: taiki-e/install-action@git-cliff
