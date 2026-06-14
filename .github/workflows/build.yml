@@ -31,7 +31,9 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v7
         with:
+          name: 'Jars'
           path: build/libs/*.jar
+          retention-days: 7
 
       - name: Generate artifact attestation
         uses: actions/attest@v4
