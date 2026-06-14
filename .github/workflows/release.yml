@@ -34,7 +34,7 @@ jobs:
       - name: Build with Gradle
         run: chmod u+x ./gradlew && ./gradlew build
 
-      - name: Upload artifacts
+      - name: Upload artifact
         uses: actions/upload-artifact@v7
         with:
           name: 'Jars'
@@ -95,7 +95,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r src/main/python/requirements.txt
 
-      - name: Create GitHub releases
+      - name: Create GitHub release
         if: vars.CREATE_GITHUB_RELEASE != ''
         uses: softprops/action-gh-release@v3
         with:
