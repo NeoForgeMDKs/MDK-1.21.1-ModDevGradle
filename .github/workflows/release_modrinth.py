@@ -1,0 +1,46 @@
+import json
+import os
+import requests
+from contextlib import ExitStack
+from pathlib import Path
+
+
+def main():
+    MODRINTH_TOKEN = os.environ('MODRINTH_TOKEN')
+
+    metadata = {}
+
+    metadata["name"] = os.environ('VERSION')
+    metadata["version_number"] = os.environ('VERSION').remove_prefix('v')
+    metadata["changelog"] = Path('CHANGELOG.md').read_text(encoding='utf-8')
+    metadata['dependencies'] = []
+    metadata['game_versions'] = ['1.21.1']
+    metadata['version_type'] = 'release'
+    metadata['loaders'] = ['forge']
+    metadata['project_id'] = os.environ('MODRINTH_PROJECT_ID')
+
+    with ExitStack() as stack:
+        files = {}
+        file_parts = []
+        metadata = {}
+
+        for jar in Path('build/libs').glob('*.jar'):
+            file = stack.enter_context(jar.open('rb'))
+            file_part = jar.stem
+            file_parts.append(file_part)
+            files[file_part] = (jar.name, file, "application/java-archive")
+
+        metadata["file_parts"] = file_parts
+        metadata["primary_file"] = file_parts[0]
+
+        response = requests.post(
+            'https://api.modrinth.com/v2/version',
+            headers={
+                'Authorization': MODRINTH_TOKEN
+            },
+            data=json.dumps(metadata),
+            files=files
+        )
+
+if __name__ == '__main__':
+    main()
