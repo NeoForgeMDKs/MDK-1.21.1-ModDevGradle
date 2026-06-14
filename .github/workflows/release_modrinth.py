@@ -6,18 +6,18 @@ from pathlib import Path
 
 
 def main():
-    MODRINTH_TOKEN = os.environ('MODRINTH_TOKEN')
+    MODRINTH_TOKEN = os.environ.get('MODRINTH_TOKEN')
 
     metadata = {}
 
-    metadata["name"] = os.environ('VERSION')
-    metadata["version_number"] = os.environ('VERSION').remove_prefix('v')
+    metadata["name"] = os.environ.get('VERSION')
+    metadata["version_number"] = os.environ.get('VERSION').remove_prefix('v')
     metadata["changelog"] = Path('CHANGELOG.md').read_text(encoding='utf-8')
     metadata['dependencies'] = []
     metadata['game_versions'] = ['1.21.1']
     metadata['version_type'] = 'release'
     metadata['loaders'] = ['forge']
-    metadata['project_id'] = os.environ('MODRINTH_PROJECT_ID')
+    metadata['project_id'] = os.environ.get('MODRINTH_PROJECT_ID')
 
     with ExitStack() as stack:
         files = {}
@@ -36,7 +36,8 @@ def main():
         response = requests.post(
             'https://api.modrinth.com/v2/version',
             headers={
-                'Authorization': MODRINTH_TOKEN
+                'Authorization': MODRINTH_TOKEN,
+                'User-Agent': os.environ.get('REPOSITORY') + '/' + os.environ.get('VERSION')
             },
             data=json.dumps(metadata),
             files=files
