@@ -38,7 +38,7 @@ jobs:
         with:
           name: 'Jars'
           path: build/libs/*.jar
-          retention-days: 7
+          retention-days: 1
 
       - name: Generate artifact attestation
         uses: actions/attest@v4
@@ -66,16 +66,16 @@ jobs:
           PREVIOUS_TAG=$(git tag --sort=-v:refname | grep -A1 "^$LATEST_TAG$" | tail -n1)
           echo "previous_tag=$PREVIOUS_TAG" >> "$GITHUB_OUTPUT"
 
-      - name: Download artifact
-        uses: actions/download-artifact@v8
-        with:
-          name: 'Jars'
-
       - name: Install git-cliff
         uses: taiki-e/install-action@git-cliff
 
       - name: Generate a changelog
         run: git-cliff --verbose --output CHANGELOG.md --strip all ${{ steps.tag.outputs.previous_tag }}..HEAD
+
+      - name: Download artifact
+        uses: actions/download-artifact@v8
+        with:
+          name: 'Jars'
 
       - name: Create GitHub releases
         uses: softprops/action-gh-release@v3
