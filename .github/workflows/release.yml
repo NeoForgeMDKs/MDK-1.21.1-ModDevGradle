@@ -108,4 +108,5 @@ jobs:
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
           VERSION: ${{ steps.tag.outputs.latest_tag }}
           MODRINTH_PROJECT_ID: ${{ vars.MODRINTH_PROJECT_ID }}
+          REPOSITORY: ${{ github.repository }}
         run: python .github/workflows/release_modrinth.py

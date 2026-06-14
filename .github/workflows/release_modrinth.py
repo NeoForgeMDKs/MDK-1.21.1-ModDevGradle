@@ -36,7 +36,8 @@ def main():
         response = requests.post(
             'https://api.modrinth.com/v2/version',
             headers={
-                'Authorization': MODRINTH_TOKEN
+                'Authorization': MODRINTH_TOKEN,
+                'User-Agent': os.environ('REPOSITORY') + '/' + os.environ('VERSION')
             },
             data=json.dumps(metadata),
             files=files
