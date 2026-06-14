@@ -8,17 +8,19 @@ import requests
 def main():
     MODRINTH_TOKEN = os.environ.get('MODRINTH_TOKEN')
 
-    metadata = {}
+    metadata = {
+        "name": f"{os.environ.get('REPOSITORY_NAME')} {os.environ.get('VERSION')}",
+        "version_number": os.environ.get('VERSION').removeprefix('v'),
+        "changelog": Path('CHANGELOG.md').read_text(encoding='utf-8'),
+        'game_versions': ['1.21.1'],
+        'version_type': 'release',
+        'loaders': ['neoforge'],
+        'featured': True,
+        'project_id': os.environ.get('MODRINTH_PROJECT_ID')
+    }
 
-    metadata["name"] = f"{os.environ.get('REPOSITORY_NAME')} {os.environ.get('VERSION')}"
-    metadata["version_number"] = os.environ.get('VERSION').removeprefix('v')
-    metadata["changelog"] = Path('CHANGELOG.md').read_text(encoding='utf-8')
-    metadata['dependencies'] = []
-    metadata['game_versions'] = ['1.21.1']
-    metadata['version_type'] = 'release'
-    metadata['loaders'] = ['neoforge']
-    metadata['featured'] = True
-    metadata['project_id'] = os.environ.get('MODRINTH_PROJECT_ID')
+    with open('src/main/python/dependencies.modrinth.json', 'r', encoding='utf-8') as f:
+        metadata['dependencies'] = json.load(f)
 
     with ExitStack() as stack:
         files = {}
@@ -45,7 +47,6 @@ def main():
             files=files
         )
         response.raise_for_status()
-
 
 if __name__ == '__main__':
     main()
