@@ -75,7 +75,7 @@ jobs:
         uses: taiki-e/install-action@git-cliff
 
       - name: Generate a changelog
-        run: git-cliff --verbose --unreleased --output CHANGELOG.md ${{ steps.tag.outputs.previous_tag }}..HEAD
+        run: git-cliff --verbose --output CHANGELOG.md ${{ steps.tag.outputs.previous_tag }}..HEAD
 
       - name: Create GitHub releases
         uses: softprops/action-gh-release@v3
