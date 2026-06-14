@@ -23,7 +23,7 @@ def main():
         files = {}
         file_parts = []
 
-        for jar in Path('build/libs').glob('*.jar'):
+        for jar in Path().glob('*.jar'):
             file = stack.enter_context(jar.open('rb'))
             file_part = jar.stem
             file_parts.append(file_part)
