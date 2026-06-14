@@ -5,6 +5,10 @@ on: [ workflow_dispatch, push, pull_request ]
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      attestations: write
+      contents: read
+      id-token: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
@@ -23,3 +27,13 @@ jobs:
 
       - name: Build with Gradle
         run: chmod u+x ./gradlew && ./gradlew build
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v7
+        with:
+          path: build/libs/*.jar
+
+      - name: Generate artifact attestation
+        uses: actions/attest@v4
+        with:
+          subject-path: build/libs/*.jar
