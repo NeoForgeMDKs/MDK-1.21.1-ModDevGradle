@@ -1,18 +1,24 @@
 name: Build
 
-on: [ workflow_dispatch, push, pull_request ]
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - *
+  pull_request:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+permissions:
+  attestations: write
+  contents: read
+  id-token: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
-    permissions:
-      attestations: write
-      contents: read
-      id-token: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
