@@ -71,9 +71,6 @@ jobs:
         with:
           name: 'Jars'
 
-      - name: TEST
-        run: ls -R
-
       - name: Install git-cliff
         uses: taiki-e/install-action@git-cliff
 
@@ -84,5 +81,5 @@ jobs:
         uses: softprops/action-gh-release@v3
         with:
           body_path: CHANGELOG.md
-          files: \*.jar
-          tag_name: ${{ steps.tag.outputs.latest_tag }}
+          files: '*.jar'
+          tag_name: '${{ github.event.repository.name }} ${{ steps.tag.outputs.latest_tag }}'
