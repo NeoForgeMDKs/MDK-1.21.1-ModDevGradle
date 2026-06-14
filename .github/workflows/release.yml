@@ -76,7 +76,7 @@ jobs:
           if [ -z "${{ steps.tag.outputs.previous_tag }}" ]; then
             echo "First release" > CHANGELOG.md
           else
-            git-cliff --verbose --output CHANGELOG.md --strip all ${{ steps.tag.outputs.previous_tag }}..HEAD
+            git-cliff --verbose --output CHANGELOG.md --strip all -- ${{ steps.tag.outputs.previous_tag }}..HEAD
           fi
 
       - name: Download artifact
