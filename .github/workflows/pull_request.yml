@@ -23,4 +23,4 @@ jobs:
       - name: Create Pull request
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh pr create --base main --head develop --title "Release ${{ github.ref_name }} --body "Auto created PR from tag ${{ github.ref_name }}"
+        run: gh pr create --base main --head develop --title "Release ${{ github.ref_name }}" --body "Auto created PR from tag ${{ github.ref_name }}"
