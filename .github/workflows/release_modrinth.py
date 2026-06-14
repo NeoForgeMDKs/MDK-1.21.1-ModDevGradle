@@ -22,7 +22,6 @@ def main():
     with ExitStack() as stack:
         files = {}
         file_parts = []
-        metadata = {}
 
         for jar in Path('build/libs').glob('*.jar'):
             file = stack.enter_context(jar.open('rb'))
@@ -37,11 +36,14 @@ def main():
             'https://api.modrinth.com/v2/version',
             headers={
                 'Authorization': MODRINTH_TOKEN,
-                'User-Agent': os.environ.get('REPOSITORY') + '/' + os.environ.get('VERSION')
+                'User-Agent': f'{os.environ.get('REPOSITORY')}/{os.environ.get('VERSION')}'
             },
-            data=json.dumps(metadata),
+            data={
+                'data': json.dumps(metadata)
+            },
             files=files
         )
+        response.raise_for_status()
 
 if __name__ == '__main__':
     main()
