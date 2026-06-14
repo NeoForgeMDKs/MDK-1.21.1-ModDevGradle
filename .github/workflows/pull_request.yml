@@ -15,6 +15,7 @@ permissions:
 
 jobs:
   create-pull-request:
+    name: Create Pull request
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository

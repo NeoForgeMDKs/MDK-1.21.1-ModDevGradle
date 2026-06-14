@@ -16,6 +16,7 @@ permissions:
 
 jobs:
   build:
+    name: Build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -46,6 +47,7 @@ jobs:
           subject-path: build/libs/*.jar
 
   release:
+    name: Release
     runs-on: ubuntu-latest
     needs: build
     steps:
