@@ -82,4 +82,5 @@ jobs:
         with:
           body_path: CHANGELOG.md
           files: '*.jar'
-          tag_name: '${{ github.event.repository.name }} ${{ steps.tag.outputs.latest_tag }}'
+          name: '${{ github.event.repository.name }} ${{ steps.tag.outputs.latest_tag }}'
+          tag_name: ${{ steps.tag.outputs.latest_tag }}
