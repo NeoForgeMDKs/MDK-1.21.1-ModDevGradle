@@ -112,4 +112,4 @@ jobs:
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
           MODRINTH_PROJECT_ID: ${{ vars.MODRINTH_PROJECT_ID }}
         if: vars.MODRINTH_PROJECT_ID != '' && env.MODRINTH_TOKEN != ''
-        run: python .github/workflows/release_modrinth.py
+        run: python .github/workflows/release.modrinth.py
