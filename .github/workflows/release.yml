@@ -71,7 +71,7 @@ jobs:
 
       - name: Generate a changelog
         run: |
-          if [ -z "${{ steps.tag.outputs.previous_tag }}" ] then
+          if [ -z "${{ steps.tag.outputs.previous_tag }}" ]; then
             echo "First release" > CHANGELOG.md
           else
             git-cliff --verbose --output CHANGELOG.md --strip all ${{ steps.tag.outputs.previous_tag }}..HEAD
