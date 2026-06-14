@@ -11,7 +11,7 @@ def main():
     metadata = {}
 
     metadata["name"] = os.environ.get('VERSION')
-    metadata["version_number"] = os.environ.get('VERSION').remove_prefix('v')
+    metadata["version_number"] = os.environ.get('VERSION').removeprefix('v')
     metadata["changelog"] = Path('CHANGELOG.md').read_text(encoding='utf-8')
     metadata['dependencies'] = []
     metadata['game_versions'] = ['1.21.1']
