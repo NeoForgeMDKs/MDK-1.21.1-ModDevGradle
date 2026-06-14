@@ -16,7 +16,7 @@ def main():
     metadata['dependencies'] = []
     metadata['game_versions'] = ['1.21.1']
     metadata['version_type'] = 'release'
-    metadata['loaders'] = ['forge']
+    metadata['loaders'] = ['neoforge']
     metadata['project_id'] = os.environ.get('MODRINTH_PROJECT_ID')
 
     with ExitStack() as stack:
@@ -36,13 +36,14 @@ def main():
             'https://api.modrinth.com/v2/version',
             headers={
                 'Authorization': MODRINTH_TOKEN,
-                'User-Agent': f'{os.environ.get('REPOSITORY')}/{os.environ.get('VERSION')}'
+                'User-Agent': f"{os.environ.get('REPOSITORY')}/{os.environ.get('VERSION')}"
             },
             data={
                 'data': json.dumps(metadata)
             },
             files=files
         )
+        print(response.text)
         response.raise_for_status()
 
 if __name__ == '__main__':
