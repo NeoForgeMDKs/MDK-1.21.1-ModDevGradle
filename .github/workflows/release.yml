@@ -71,15 +71,15 @@ jobs:
         with:
           name: 'Jars'
 
+      - name: Install git-cliff
+        uses: taiki-e/install-action@git-cliff
+
       - name: Generate a changelog
-        uses: orhun/git-cliff-action@v4
-        with:
-          args: '${{ steps.tag.outputs.previous_tag }}..HEAD --unreleased --output CHANGELOG.md'
-          github_token: ${{ github.token }}
+        run: git-cliff --verbose --unreleased --output CHANGELOG.md ${{ steps.tag.outputs.previous_tag }}..HEAD
 
       - name: Create GitHub releases
         uses: softprops/action-gh-release@v3
         with:
           body_path: CHANGELOG.md
-          files: Jars/*.jar
+          files: build/libs/*.jar
           tag_name: ${{ steps.tag.outputs.latest_tag }}
