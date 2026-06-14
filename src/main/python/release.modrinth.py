@@ -6,8 +6,6 @@ from pathlib import Path
 import requests
 
 def main():
-    MODRINTH_TOKEN = os.environ.get("MODRINTH_TOKEN")
-
     data = {
         "name": f"{os.environ.get("REPOSITORY_NAME")} {os.environ.get("VERSION")}",
         "version_number": os.environ.get("VERSION").removeprefix("v"),
@@ -41,7 +39,7 @@ def main():
         response = requests.post(
             "https://api.modrinth.com/v2/version",
             headers={
-                "Authorization": MODRINTH_TOKEN,
+                "Authorization": os.environ.get("MODRINTH_TOKEN"),
                 "User-Agent": f"{os.environ.get("REPOSITORY")}/{os.environ.get("VERSION")}"
             },
             data={
