@@ -1,16 +1,16 @@
 import json
 import os
-import requests
 from contextlib import ExitStack
 from pathlib import Path
 
+import requests
 
 def main():
     MODRINTH_TOKEN = os.environ.get('MODRINTH_TOKEN')
 
     metadata = {}
 
-    metadata["name"] = os.environ.get('VERSION')
+    metadata["name"] = f"{os.environ.get('REPOSITORY_NAME')} {os.environ.get('VERSION')}"
     metadata["version_number"] = os.environ.get('VERSION').removeprefix('v')
     metadata["changelog"] = Path('CHANGELOG.md').read_text(encoding='utf-8')
     metadata['dependencies'] = []
@@ -44,8 +44,8 @@ def main():
             },
             files=files
         )
-        print(response.text)
         response.raise_for_status()
+
 
 if __name__ == '__main__':
     main()

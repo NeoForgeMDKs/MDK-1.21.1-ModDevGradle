@@ -104,9 +104,11 @@ jobs:
           tag_name: ${{ steps.tag.outputs.latest_tag }}
 
       - name: Create Modrinth release
+        if: vars.MODRINTH_PROJECT_ID != ''
         env:
-          MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
-          VERSION: ${{ steps.tag.outputs.latest_tag }}
-          MODRINTH_PROJECT_ID: ${{ vars.MODRINTH_PROJECT_ID }}
           REPOSITORY: ${{ github.repository }}
+          REPOSITORY_NAME: ${{ github.event.repository.name }}
+          VERSION: ${{ steps.tag.outputs.latest_tag }}
+          MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
+          MODRINTH_PROJECT_ID: ${{ vars.MODRINTH_PROJECT_ID }}
         run: python .github/workflows/release_modrinth.py
