@@ -4,8 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - '*'
-  pull_request:
+      - 'develop'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
