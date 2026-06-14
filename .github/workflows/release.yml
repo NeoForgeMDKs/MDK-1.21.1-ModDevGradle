@@ -66,20 +66,23 @@ jobs:
           PREVIOUS_TAG=$(git tag --sort=-v:refname | grep -A1 "^$LATEST_TAG$" | tail -n1)
           echo "previous_tag=$PREVIOUS_TAG" >> "$GITHUB_OUTPUT"
 
-      - name: Download artifacts
+      - name: Download artifact
         uses: actions/download-artifact@v8
         with:
           name: 'Jars'
+
+      - name: Unzip artifact
+        run: unzip ./Jars.zip
 
       - name: Install git-cliff
         uses: taiki-e/install-action@git-cliff
 
       - name: Generate a changelog
-        run: git-cliff --verbose --output CHANGELOG.md ${{ steps.tag.outputs.previous_tag }}..HEAD
+        run: git-cliff --verbose --output CHANGELOG.md --strip all ${{ steps.tag.outputs.previous_tag }}..HEAD
 
       - name: Create GitHub releases
         uses: softprops/action-gh-release@v3
         with:
           body_path: CHANGELOG.md
-          files: build/libs/*.jar
+          files: \*.jar
           tag_name: ${{ steps.tag.outputs.latest_tag }}
