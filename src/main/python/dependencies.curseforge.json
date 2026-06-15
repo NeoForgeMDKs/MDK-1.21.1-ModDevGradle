@@ -1,7 +1,7 @@
 [
   {
     "slug": "jei",
-    "projectID": "238222",
+    "projectID": 238222,
     "type": "requiredDependency"
   }
 ]
