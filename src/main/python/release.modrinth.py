@@ -10,6 +10,7 @@ def main():
         "name": f"{os.environ.get("REPOSITORY_NAME")} {os.environ.get("VERSION")}",
         "version_number": os.environ.get("VERSION").removeprefix("v"),
         "changelog": Path("CHANGELOG.md").read_text(encoding="utf-8"),
+        "dependencies": [],
         "game_versions": ["1.21.1"],
         "version_type": "release",
         "loaders": ["neoforge"],
@@ -18,7 +19,8 @@ def main():
     }
 
     with open("src/main/python/dependencies.modrinth.json", "r", encoding="utf-8") as f:
-        data["dependencies"] = json.load(f)
+        if f:
+            data["dependencies"] = json.load(f)
 
     with ExitStack() as stack:
         files = {}
