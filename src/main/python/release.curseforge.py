@@ -40,6 +40,7 @@ def main():
                     )
                 }
             )
+            print(response.text)
             response.raise_for_status()
 
 
