@@ -11,7 +11,7 @@ def main():
         "changelog": markdown.Markdown(extensions=['extra']).convert(Path("CHANGELOG.md").read_text(encoding="utf-8")),
         "changelogType": "html",
         "displayName": f"{os.environ.get("REPOSITORY_NAME")} {os.environ.get("VERSION")}",
-        "gameVersions": [ 11779 ],  # Minecraft 1.21.1
+        "gameVersions": [11779],  # Minecraft 1.21.1
         "gameVersionNames": ["Client", "Server", "NeoForge", "1.21.1"],
         "releaseType": "release",
         "relations": {
@@ -41,7 +41,6 @@ def main():
                     )
                 }
             )
-            print(json.dumps(metadata, indent=2, ensure_ascii=False))
             print(response.text)
             response.raise_for_status()
 
