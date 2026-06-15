@@ -19,8 +19,7 @@ def main():
     }
 
     with open("src/main/python/dependencies.modrinth.json", "r", encoding="utf-8") as f:
-        if f:
-            data["dependencies"] = json.load(f)
+        data["dependencies"] = json.load(f)
 
     with ExitStack() as stack:
         files = {}
