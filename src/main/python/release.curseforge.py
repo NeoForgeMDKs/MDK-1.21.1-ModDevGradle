@@ -7,7 +7,7 @@ import requests
 
 def main():
     metadata = {
-        "changelog": Path("CHANGELOG.md").read_text(encoding="utf-8").replace("\n", "<br>").replace("\r", "<br>"),
+        "changelog": Path("CHANGELOG.md").read_text(encoding="utf-8").replace("\n", "  ").replace("\r", "  "),
         "changelogType": "markdown",
         "displayName": f"{os.environ.get("REPOSITORY_NAME")} {os.environ.get("VERSION")}",
         "gameVersions": [ 11779 ],  # Minecraft 1.21.1
