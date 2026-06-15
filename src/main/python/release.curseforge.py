@@ -40,6 +40,7 @@ def main():
                     )
                 }
             )
+            print(json.dumps(metadata, indent=2, ensure_ascii=False))
             print(response.text)
             response.raise_for_status()
 
