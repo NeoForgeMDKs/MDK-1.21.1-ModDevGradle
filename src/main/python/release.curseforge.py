@@ -3,12 +3,13 @@ import os
 from contextlib import ExitStack
 from pathlib import Path
 
+import markdown
 import requests
 
 def main():
     metadata = {
-        "changelog": Path("CHANGELOG.md").read_text(encoding="utf-8").replace("\n", "<br> ").replace("\r", "<br> "),
-        "changelogType": "markdown",
+        "changelog": markdown.Markdown(extensions=['extra']).convert(Path("CHANGELOG.md").read_text(encoding="utf-8")),
+        "changelogType": "html",
         "displayName": f"{os.environ.get("REPOSITORY_NAME")} {os.environ.get("VERSION")}",
         "gameVersions": [ 11779 ],  # Minecraft 1.21.1
         "gameVersionNames": ["Client", "Server", "NeoForge", "1.21.1"],
