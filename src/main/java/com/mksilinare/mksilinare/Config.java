@@ -1,4 +1,4 @@
-package com.example.examplemod;
+package com.mksilinare.mksilinare;
 
 import java.util.List;
 import java.util.Set;
