@@ -58,8 +58,6 @@ Example mod description.
 #[[accessTransformers]]
 #file="META-INF/accesstransformer.cfg"
 
-# The coremods config file path is not configurable and is always loaded from META-INF/coremods.json
-
 # A dependency - use the . to indicate dependency for a specific modid. Dependencies are optional.
 [[dependencies.${mod_id}]] #optional
     # the modid of the dependency
