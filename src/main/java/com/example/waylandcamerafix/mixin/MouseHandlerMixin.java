@@ -18,23 +18,27 @@ public class MouseHandlerMixin {
     private boolean ignoreFirstMove;
 
     @Unique
-    private int waylandcamerafix$suppressFrames = 0;
+    private int waylandcamerafix$grabGraceTicks = 0;
 
     @Inject(method = "grabMouse", at = @At("RETURN"))
     private void waylandcamerafix$onGrabMouse(CallbackInfo ci) {
         this.accumulatedDX = 0.0;
         this.accumulatedDY = 0.0;
         this.ignoreFirstMove = true;
-        this.waylandcamerafix$suppressFrames = 2;
+        // Set a grace period of 10 frame-handling ticks after grabMouse()
+        this.waylandcamerafix$grabGraceTicks = 10;
     }
 
     @Inject(method = "handleAccumulatedMovement", at = @At("HEAD"))
     private void waylandcamerafix$onHandleAccumulatedMovement(CallbackInfo ci) {
-        if (this.waylandcamerafix$suppressFrames > 0) {
-            this.waylandcamerafix$suppressFrames--;
-            this.accumulatedDX = 0.0;
-            this.accumulatedDY = 0.0;
-            this.ignoreFirstMove = true;
+        if (this.waylandcamerafix$grabGraceTicks > 0) {
+            this.waylandcamerafix$grabGraceTicks--;
+            // During the 10-tick grace window after grabMouse, discard any transition delta spikes (> 30px)
+            if (Math.abs(this.accumulatedDX) > 30.0 || Math.abs(this.accumulatedDY) > 30.0) {
+                this.accumulatedDX = 0.0;
+                this.accumulatedDY = 0.0;
+                this.ignoreFirstMove = true;
+            }
         }
     }
 }
